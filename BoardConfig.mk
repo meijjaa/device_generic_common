@@ -69,11 +69,32 @@ BOARD_WPA_SUPPLICANT_DRIVER := NL80211
 WPA_SUPPLICANT_VERSION := VER_2_1_DEVEL
 WIFI_DRIVER_MODULE_NAME := brcmfmac
 
-BOARD_GPU_DRIVERS ?= i915 i965 nouveau r300g r600g radeonsi swrast virgl vmwgfx
+BOARD_KERNEL_CMDLINE += vga=current i915.modeset=1 drm.atomic=1 i915.nuclear_pageflip=1 drm.vblankoffdelay=1 i915.fastboot=1
+USE_OPENGL_RENDERER := true
+NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
+USE_INTEL_UFO_DRIVER := false
+INTEL_VA := true
+BOARD_GRAPHIC_IS_GEN := true
+BOARD_GPU_DRIVERS := i965
+BOARD_USE_MESA := true
+GRALLOC_DRM := true
+BOARD_USES_IA_PLANNER := true
+
+# System's VSYNC phase offsets in nanoseconds
+VSYNC_EVENT_PHASE_OFFSET_NS := 7500000
+SF_VSYNC_EVENT_PHASE_OFFSET_NS := 5000000
+
+BOARD_GPU_DRIVERS ?= i965 swrast
 ifneq ($(strip $(BOARD_GPU_DRIVERS)),)
 TARGET_HARDWARE_3D := true
-BOARD_EGL_CFG ?= device/generic/common/gpu/egl_mesa.cfg
 endif
+
+TARGET_USES_HWC2 := true
+
+BOARD_USES_DRM_HWCOMPOSER := false
+BOARD_USES_IA_HWCOMPOSER := true
+
+BOARD_USES_MINIGBM := false
 
 BOARD_KERNEL_CMDLINE := root=/dev/ram0 androidboot.selinux=permissive
 TARGET_KERNEL_DIFFCONFIG := device/generic/common/selinux_diffconfig

@@ -81,6 +81,63 @@ PRODUCT_AAPT_PREF_CONFIG := mdpi
 
 DEVICE_PACKAGE_OVERLAYS := $(LOCAL_PATH)/overlay
 
+##############################################################
+# Source: device/intel/mixins/groups/graphics/android_ia/product.mk
+##############################################################
+# Mesa
+PRODUCT_PACKAGES += \
+    libGLES_mesa \
+    libGLES_android
+
+PRODUCT_PACKAGES += \
+    libdrm \
+    libdrm_intel \
+    libsync
+
+PRODUCT_COPY_FILES += \
+    device/intel/android_ia/common/graphics/drirc:system/etc/drirc
+
+
+# HWComposer IA
+PRODUCT_PACKAGES += \
+    hwcomposer.android_ia
+
+PRODUCT_PROPERTY_OVERRIDES += \
+   hwc.drm.use_overlay_planes=1 \
+   ro.hardware.hwcomposer=android_ia
+
+
+#Gralloc
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.hardware.gralloc=drm
+
+PRODUCT_PACKAGES += \
+    gralloc.drm
+
+
+# Mesa
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.opengles.aep.xml:system/etc/permissions/android.hardware.opengles.aep.xml
+
+# GLES version
+PRODUCT_PROPERTY_OVERRIDES += \
+   ro.opengles.version=196609
+
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.vulkan.level-1.xml:system/etc/permissions/android.hardware.vulkan.level.xml
+
+
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.vulkan.version-1_0_3.xml:system/etc/permissions/android.hardware.vulkan.version.xml
+
+PRODUCT_PACKAGES += \
+    vulkan.android_ia \
+    vulkan.mesa_intel
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.hardware.vulkan=android_ia
+
+
 # Get the firmwares
 $(call inherit-product,device/generic/firmware/firmware.mk)
 
